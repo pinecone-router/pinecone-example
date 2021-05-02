@@ -1,0 +1,19 @@
+{
+  "name": "site",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.2.3"
+  },
+  "dependencies": {
+    "alpinejs": "^2.8.2",
+    "pinecone-router": "^0.1.0",
+    "pinecone-router-middleware-render": "*",
+    "pinecone-router-middleware-views": "^0.0.1",
+    "vite-plugin-windicss": "^0.15.10"
+  }
+}
