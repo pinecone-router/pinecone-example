@@ -85,7 +85,7 @@
 
 					// this will validate the name in the /hello/:name route
 					checkname(context) {
-						if (context.props.name == 'home') {
+						if (context.props.name.toLowerCase() == 'home') {
 							// redirecting is as easy as return the context.redirect function.
 							return context.redirect('/');
 						}
