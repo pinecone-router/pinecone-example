@@ -2,51 +2,80 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@0.1.1/dist/index.umd.js"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/pinecone-router@0.3.0/dist/index.umd.js"></script> -->
 		<!--Import Alpine.js-->
-		<script
+		<!-- <script
 			src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"
-			defer
-		></script>
+			defer>
+		</script> -->
 	</head>
-	<body>
-		<div
-			x-data="{show:true}"
-			@pinecone-end.window="show=false"
-			@pinecone-start.window="show=true"
-			x-show="show"
-		>
-			imagine this a fancy loading bar.
-		</div>
+	<body class="bg-hex-0B2822 p-3">
 		<div x-data="router()" x-router>
 			<template x-route="/" x-handler="home"></template>
+
 			<template x-route="/hello" x-handler="hello"></template>
+
 			<!-- routes can share handlers, and have multiple handlers!
 				here we use the same handler as above (hello), and a new one to check the name (checkname). -->
 			<template
 				x-route="/hello/:name"
-				x-handler="checkname, hello"
+				x-handler="[checkname, hello]"
 			></template>
+
+			<!-- handlers can be inline, using anonymous & arrow functions! -->
+			<template
+				x-route="/inline"
+				x-handler="(ctx)=>ctx.redirect('/hello')"
+			></template>
+
+			<template
+				x-route="/optional/:param?"
+				x-handler="example"
+			></template>
+			<template
+				x-route="/wildcard/zeroplus/:param*"
+				x-handler="example"
+			></template>
+			<template
+				x-route="/wildcard/oneplus/:param+"
+				x-handler="example"
+			></template>
+
 			<!-- the 404 page handler -->
 			<template x-route="notfound" x-handler="notfound"></template>
 		</div>
 
-		<div id="app" class="text-center p-6 w-sm mx-auto" x-data></div>
+		<div
+			id="app"
+			class="text-center p-6 w-sm h-md max-w-full mx-auto bg-hex-D7F4EE rounded-3xl m-6 shadow-lg"
+			x-data
+		></div>
 
 		<script>
 			// the router component.
 			function router() {
 				return {
+					pineconeConfig: {},
 					home(context) {
 						document.querySelector('#app').innerHTML = `
-						<h1 class="font-bold prose-lg">Home</h1>
-						<a class="underline" href="/hello">Hello World</a>
-						<br>
-						<a class="underline" href="/test">A non-existing route</a>
+						<h1 class="font-bold prose-lg">Pinecone Router Usage Examples</h1>
+						<div class="flex flex-col space-y-3 p-3 all-child:bg-hex-5FD3BC font-bold prose-sm text-hex-0B2822 all-child:rounded-xl">
+						<a href="/hello">Hello World</a>	
+						<a href="/test">A non-existing route</a>	
+						<a href="/inline">Inline handler</a>	
+						<a href="/optional">Optional parameter</a>	
+						<a href="/wildcard/zeroplus/">Remaining parameter (zero or more)</a>	
+						<a href="/wildcard/oneplus/remaining">Remaining parameter (one or more)</a>
+						</div>
+						<div class="flex space-x-3 max-w-full">
+							<a class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://pinecone-router.github.io//router/" target="_blank">Read Documentation</a>
+							<a class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/discussions" target="_blank">Ask questions</a>
+							<a class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
+						</div>
 						`;
 					},
 
@@ -57,19 +86,19 @@
 						// the context comes handy in telling us which route it is.
 						if (context.route == '/hello/:name') {
 							// this means the user is at /hello/something
-							// where something is the context.props.name
-							name = context.props.name;
+							// where something is the context.params.name
+							name = context.params.name;
 						} else {
 							// the user is at /hello, ask them for their name
 							name = 'What is your name?';
 						}
 
 						document.querySelector('#app').innerHTML = `
-						<h1>Hello, ${name}</h1>
+						<h1 class="prose-xl font-bold">Hello, ${name}</h1>
 						<!-- This isn't very clear since it's in a string
 							so what this does is every time the input change, use the $router magic helper to redirect
 							to /hello/input where input is the user input. -->
-						<input type="text" @change="$router.redirect('/hello/' + event.target.value)">
+						<input  type="text" @change="$router.redirect('/hello/' + event.target.value)" class="p-3 focus:outline-none rounded-3xl bg-hex-5FD3BC text-hex-0B2822 font-bold text-center my-2">
 						<p>Tip: write 'home' to go to the home page.</p>
 						`;
 					},
@@ -79,16 +108,26 @@
 						document.querySelector('#app').innerHTML = `
 						<h1>404 Not Found</h1>
 						<p>The page ${context.path} doesn't exist</p>
-						<button class="underline" @click="$router.redirect('/')">Go Home</button>
+						<button class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
 						`;
 					},
 
 					// this will validate the name in the /hello/:name route
 					checkname(context) {
-						if (context.props.name.toLowerCase() == 'home') {
+						if (context.params.name.toLowerCase() == 'home') {
 							// redirecting is as easy as return the context.redirect function.
 							return context.redirect('/');
 						}
+					},
+
+					example(context) {
+						document.querySelector('#app').innerHTML = `
+						<p class="prose-xl font-bold">How: ${context.route} </p>
+						<p>${context.route == '/optional/:param?' ? 'Optinal' : 'Remaining'} param: ${
+							context.params.param || 'not set'
+						}</p>
+						<button class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3 text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
+						`;
 					},
 				};
 			}
