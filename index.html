@@ -12,6 +12,13 @@
 			src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"
 			defer
 		></script>
+
+		<!-- OPTIONAL: nProgress for loading bar -->
+		<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/nprogress@0.2.0/nprogress.css"
+		/>
 	</head>
 	<body class="bg-hex-0B2822 p-3">
 		<div x-data="router()" x-router>
@@ -65,8 +72,11 @@
 			// the router component.
 			function router() {
 				return {
-					pineconeConfig: {},
+					settings: {},
 					home(context) {
+						// Optional, show loading bar
+						NProgress.start();
+
 						document.querySelector('#app').innerHTML = `
 						<h1 class="font-bold prose-lg">Pinecone Router Usage Examples</h1>
 						<div class="flex flex-col space-y-3 p-3 all-child:bg-hex-5FD3BC all-child:p-2 font-bold prose-sm text-hex-0B2822 all-child:rounded-3xl">
@@ -84,11 +94,14 @@
 							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
 						</div>
 						`;
+
+						NProgress.done();
 					},
 
 					hello(context) {
-						let name;
+						NProgress.start();
 
+						let name;
 						// this handler is for /hello and /hello/:world
 						// the context comes handy in telling us which route it is.
 						if (context.route == '/hello/:name') {
@@ -111,15 +124,21 @@
 								class="p-3 max-w-full focus:outline-none rounded-3xl bg-hex-5FD3BC text-hex-0B2822 font-bold text-center my-2">
 						<p class="tracking-tighter text-sm font-bold">Tip: write 'home' to go to the home page.</p>
 						`;
+
+						NProgress.done();
 					},
 
 					// this will handle the 404 routes
 					notfound(context) {
+						NProgress.start();
+
 						document.querySelector('#app').innerHTML = `
 						<h1 class="prose-lg font-bold">404 Not Found</h1>
 						<p>The page <strong>${context.path}</strong> doesn't exist.</p>
 						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
 						`;
+
+						NProgress.done();
 					},
 
 					// this will validate the name in the /hello/:name route
@@ -132,6 +151,7 @@
 					},
 
 					example(context) {
+						NProgress.start();
 						document.querySelector('#app').innerHTML = `
 						<p class="prose-xl font-bold">How: ${context.route} </p>
 						<p>${context.route == '/optional/:param?' ? 'Optinal' : 'Remaining'} param: ${
@@ -139,6 +159,7 @@
 						}</p>
 						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3 text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
 						`;
+						NProgress.done();
 					},
 				};
 			}
