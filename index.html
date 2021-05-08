@@ -158,7 +158,7 @@
 						NProgress.start();
 						document.querySelector('#app').innerHTML = `
 						<p class="prose-xl font-bold">How: ${context.route} </p>
-						<p>${context.route == '/optional/:param?' ? 'Optinal' : 'Remaining'} param: ${
+						<p>${context.route == '/optional/:param?' ? 'Optional' : 'Remaining'} param: ${
 							context.params.param || 'not set'
 						}</p>
 						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3 text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
