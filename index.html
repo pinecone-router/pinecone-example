@@ -6,12 +6,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<!-- <script src="https://cdn.jsdelivr.net/npm/pinecone-router@0.3.0/dist/index.umd.js"></script> -->
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@0.3.0/dist/index.umd.js"></script>
 		<!--Import Alpine.js-->
-		<!-- <script
+		<script
 			src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"
 			defer>
-		</script> -->
+		</script>
 	</head>
 	<body class="bg-hex-0B2822 p-3">
 		<div x-data="router()" x-router>
@@ -49,9 +49,15 @@
 			<template x-route="notfound" x-handler="notfound"></template>
 		</div>
 
+		<a href="/"
+			><img
+				src="/pinecone-router-readme-transparent.png"
+				class="mx-auto h-30"
+		/></a>
+		<!-- The views will be rendered here -->
 		<div
 			id="app"
-			class="text-center p-6 w-sm h-md max-w-full mx-auto bg-hex-D7F4EE rounded-3xl m-6 shadow-lg"
+			class="text-center p-6 w-sm max-w-full mx-auto bg-hex-D7F4EE rounded-3xl shadow-lg"
 			x-data
 		></div>
 
@@ -63,7 +69,7 @@
 					home(context) {
 						document.querySelector('#app').innerHTML = `
 						<h1 class="font-bold prose-lg">Pinecone Router Usage Examples</h1>
-						<div class="flex flex-col space-y-3 p-3 all-child:bg-hex-5FD3BC font-bold prose-sm text-hex-0B2822 all-child:rounded-xl">
+						<div class="flex flex-col space-y-3 p-3 all-child:bg-hex-5FD3BC all-child:p-2 font-bold prose-sm text-hex-0B2822 all-child:rounded-3xl">
 						<a href="/hello">Hello World</a>	
 						<a href="/test">A non-existing route</a>	
 						<a href="/inline">Inline handler</a>	
@@ -72,9 +78,9 @@
 						<a href="/wildcard/oneplus/remaining">Remaining parameter (one or more)</a>
 						</div>
 						<div class="flex space-x-3 max-w-full">
-							<a class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://pinecone-router.github.io//router/" target="_blank">Read Documentation</a>
-							<a class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/discussions" target="_blank">Ask questions</a>
-							<a class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
+							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://pinecone-router.github.io//router/" target="_blank">Read Documentation</a>
+							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/discussions" target="_blank">Ask questions</a>
+							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
 						</div>
 						`;
 					},
@@ -98,22 +104,26 @@
 						<!-- This isn't very clear since it's in a string
 							so what this does is every time the input change, use the $router magic helper to redirect
 							to /hello/input where input is the user input. -->
-						<input  type="text" @change="$router.redirect('/hello/' + event.target.value)" class="p-3 focus:outline-none rounded-3xl bg-hex-5FD3BC text-hex-0B2822 font-bold text-center my-2">
-						<p>Tip: write 'home' to go to the home page.</p>
+						<input  type="text" @change="$router.redirect('/hello/' + event.target.value)"
+								:value="$router.params?.name ?? ''"
+								placeholder="Write your name"
+								class="p-3 max-w-full focus:outline-none rounded-3xl bg-hex-5FD3BC text-hex-0B2822 font-bold text-center my-2">
+						<p class="tracking-tighter text-sm font-bold">Tip: write 'home' to go to the home page.</p>
 						`;
 					},
 
 					// this will handle the 404 routes
 					notfound(context) {
 						document.querySelector('#app').innerHTML = `
-						<h1>404 Not Found</h1>
-						<p>The page ${context.path} doesn't exist</p>
-						<button class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
+						<h1 class="prose-lg font-bold">404 Not Found</h1>
+						<p>The page <strong>${context.path}</strong> doesn't exist.</p>
+						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
 						`;
 					},
 
 					// this will validate the name in the /hello/:name route
 					checkname(context) {
+						console.log({ context });
 						if (context.params.name.toLowerCase() == 'home') {
 							// redirecting is as easy as return the context.redirect function.
 							return context.redirect('/');
@@ -126,7 +136,7 @@
 						<p>${context.route == '/optional/:param?' ? 'Optinal' : 'Remaining'} param: ${
 							context.params.param || 'not set'
 						}</p>
-						<button class="rounded-xl bg-hex-0B2822 text-white p-2 mt-3 text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
+						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3 text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
 						`;
 					},
 				};
