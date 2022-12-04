@@ -6,12 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@0.3.0/dist/index.umd.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@2.x.x/dist/router.min.js"></script>
+
 		<!--Import Alpine.js-->
-		<script
-			src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"
-			defer
-		></script>
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 		<!-- OPTIONAL: nProgress for loading bar -->
 		<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
@@ -21,7 +19,7 @@
 		/>
 	</head>
 	<body class="bg-hex-0B2822 p-3">
-		<div x-data="router()" x-router>
+		<div x-data="router()">
 			<template x-route="/" x-handler="home"></template>
 
 			<template x-route="/hello" x-handler="hello"></template>
@@ -147,7 +145,6 @@
 
 					// this will validate the name in the /hello/:name route
 					checkname(context) {
-						console.log({ context });
 						if (context.params.name.toLowerCase() == 'home') {
 							// redirecting is as easy as return the context.redirect function.
 							return context.redirect('/');
