@@ -9,7 +9,10 @@
 		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@2.x.x/dist/router.min.js"></script>
 
 		<!--Import Alpine.js-->
-        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<script
+			defer
+			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+		></script>
 
 		<!-- OPTIONAL: nProgress for loading bar -->
 		<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
@@ -120,7 +123,7 @@
 						<!-- This isn't very clear since it's in a string
 							so what this does is every time the input change, use the $router magic helper to redirect
 							to /hello/input where input is the user input. -->
-						<input  type="text" @change="$router.redirect('/hello/' + event.target.value)"
+						<input  type="text" @change="$router.redirect($event.target.value == 'home'? '/' : '/hello/'+$event.target.value)"
 								:value="$router.params?.name ?? ''"
 								placeholder="Write your name"
 								class="p-3 max-w-full focus:outline-none rounded-3xl bg-hex-5FD3BC text-hex-0B2822 font-bold text-center my-2">
@@ -143,11 +146,10 @@
 						NProgress.done();
 					},
 
-					// this will validate the name in the /hello/:name route
+					// this will check if we have the same name
 					checkname(context) {
-						if (context.params.name.toLowerCase() == 'home') {
-							// redirecting is as easy as return the context.redirect function.
-							return context.redirect('/');
+						if (context.params.name.toLowerCase() == 'rafik') {
+							console.log('we have the same name!');
 						}
 					},
 
