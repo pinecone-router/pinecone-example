@@ -1,16 +1,16 @@
 {
-  "name": "site",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^2.9.13"
-  },
-  "dependencies": {
-    "alpinejs": "^2.8.2",
-    "vite-plugin-windicss": "^0.15.10"
-  }
+	"name": "site",
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"devDependencies": {
+		"vite": "^2.9.16"
+	},
+	"dependencies": {
+		"alpinejs": "^2.8.2",
+		"vite-plugin-windicss": "^0.15.10"
+	}
 }
