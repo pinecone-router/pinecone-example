@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app {
+	@apply text-center p-6 max-w-sm mx-auto bg-[#D7F4EE] rounded-3xl shadow-lg
+}
+
+.links { 
+	@apply flex flex-col space-y-3 p-3 [&>*]:bg-[#5FD3BC] [&>*]:p-2 font-bold text-[#0B2822] [&>*]:rounded-3xl
+}

@@ -1,1 +1,1 @@
-import 'virtual:windi.css';
+import './src/style.css'

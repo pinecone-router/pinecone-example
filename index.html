@@ -1,176 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Pinecone Router Simple Example</title>
-		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@3.x.x/dist/router.min.js"></script>
 
-		<!--Import Alpine.js-->
-		<script
-			defer
-			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-		></script>
+<head>
+	<meta charset="UTF-8" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Pinecone Router Simple Example</title>
+	<!--Import Pinecone Router-->
+	<script src="https://cdn.jsdelivr.net/npm/pinecone-router@4.x.x/dist/router.min.js"></script>
 
-		<!-- OPTIONAL: nProgress for loading bar -->
-		<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
-		<link
-			rel="stylesheet"
-			href="https://unpkg.com/nprogress@0.2.0/nprogress.css"
-		/>
-	</head>
-	<body class="bg-hex-0B2822 p-3">
-		<div x-data="router()">
-			<template x-route="/" x-handler="home"></template>
+	<!--Import Alpine.js-->
+	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-			<template x-route="/hello" x-handler="hello"></template>
+	<!-- OPTIONAL: nProgress for loading bar -->
+	<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
+</head>
 
-			<!-- routes can share handlers, and have multiple handlers!
-				here we use the same handler as above (hello), and a new one to check the name (checkname). -->
-			<template
-				x-route="/hello/:name"
-				x-handler="[checkname, hello]"
-			></template>
+<body class="bg-[#0B2822] p-3">
+	<a href="/"><img src="/pinecone-router-readme-transparent.png" class="max-w-xs mx-auto " /></a>
+	<div id="app" x-data="example">
+		<div>
+			<h1 class="font-bold text-lg mb-6">Pinecone Router Usage Examples</h1>
 
-			<!-- handlers can be inline, using anonymous & arrow functions! -->
-			<template
-				x-route="/inline"
-				x-handler="(ctx)=>ctx.redirect('/hello')"
-			></template>
+			<!-- Routes -->
 
-			<template
-				x-route="/optional/:param?"
-				x-handler="example"
-			></template>
-			<template
-				x-route="/wildcard/zeroplus/:param*"
-				x-handler="example"
-			></template>
-			<template
-				x-route="/wildcard/oneplus/:param+"
-				x-handler="example"
-			></template>
+			<!-- Homepage -->
+			<template x-route="/">
+				<!-- inline template, under the hood it inserts an x-if that shows when the route is matched -->
+				<div class="links">
+					<a href="/hello">Hello World</a>
+					<a href="/test">A non-existing route</a>
+					<a href="/handler">x-handler examples</a>
+				</div>
+			</template>
 
-			<!-- the 404 page handler -->
-			<template x-route="notfound" x-handler="notfound"></template>
+			<!-- 404 page: this will load before its accessed (preloadeed) -->
+			<template x-route="notfound" x-template.preload="/views/404.html"></template>
+
+			<!-- Hello World page: his will load when the page is visited then cached in memory until page is reloaded-->
+			<template x-route="/hello/:name?" x-handler="hello" x-template="/views/hello.html"></template>
+
+
+			<!-- x-handler example -->
+
+			<!-- x-handler example lonks -->
+			<template x-route="/handler">
+				<div class="links">
+					<a href="/handler/inline">Inline handler (redirects to this page)</a>
+					<a href="/handler/async">Async handler with template</a>
+				</div>
+			</template>
+
+			<!-- x-handler examples -->
+
+			<!-- inline handler, this will redirect and the template wont be loaded-->
+			<template x-route="/handler/inline" x-handler="(ctx)=>ctx.redirect('/handler')"
+				x-template="/views/hello.html"></template>
+
+			<template x-route="/handler/async" x-handler="[awaitedHandler]" x-template="/views/async.html"></template>
+
+			<!-- footer -->
+			<div class="flex flex-col space-y-1 max-w-full">
+				<div class="flex space-x-3 justify-center">
+					<a class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
+						href="https://pinecone-router.github.io/router/" target="_blank">Read Documentation</a>
+					<a class="flex rounded-3xl items-center bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
+						href="https://github.com/rehhouari/pinecone-example" target="_blank">Example Source</a>
+				</div>
+				<div class="flex space-x-3 justify-center">
+					<a class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
+						href="https://github.com/pinecone-router/router/discussions" target="_blank">Ask
+						questions</a>
+					<a class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
+						href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
+				</div>
+			</div>
 		</div>
+	</div>
 
-		<a href="/"
-			><img
-				src="/pinecone-router-readme-transparent.png"
-				class="mx-auto h-30"
-		/></a>
-		<!-- The views will be rendered here -->
-		<div
-			id="app"
-			class="text-center p-6 w-sm max-w-full mx-auto bg-hex-D7F4EE rounded-3xl shadow-lg"
-			x-data
-		></div>
+	<script>
+		let example = ({
+			id: '',
+			loading: false,
+			hello(context) {
+				if (context.params.name.toLowerCase() == 'home') {
+					return context.redirect('/')
+				}
+			},
 
-		<script>
-			document.addEventListener('alpine:initialized', () => {
-				window.PineconeRouter.settings.hash = false; // use hash routing
-			});
-			// the router component.
-			function router() {
-				return {
-					settings: {},
-					home(context) {
-						// Optional, show loading bar
-						NProgress.start();
+			// async functions will be automatically awaited by Pinecone Router
+			// meaning until it finished subsequent handlers wont be executed
+			// and templates wont be displayed
+			async awaitedHandler(context) {
+				await new Promise(resolve => setTimeout(resolve, 1500));
+				this.id = context.params.id
+			},
+		})
+		document.addEventListener('alpine:initialized', () => {
+			window.PineconeRouter.settings.basePath = '/'
+			window.PineconeRouter.settings.hash = false; // use hash routing
+		});
+		// add progress bar
+		document.addEventListener('pinecone-start', () => NProgress.start());
+		document.addEventListener('pinecone-end', () => NProgress.done());
+		document.addEventListener('fetch-error', (err) => console.error(err));
+	</script>
 
-						document.querySelector('#app').innerHTML = `
-						<h1 class="font-bold prose-lg">Pinecone Router Usage Examples</h1>
-						<div class="flex flex-col space-y-3 p-3 all-child:bg-hex-5FD3BC all-child:p-2 font-bold prose-sm text-hex-0B2822 all-child:rounded-3xl">
-						<a href="/hello">Hello World</a>	
-						<a href="/test">A non-existing route</a>	
-						<a href="/inline">Inline handler</a>	
-						<a href="/optional/optional_param">Optional parameter</a>	
-						<a href="/wildcard/zeroplus/remaining_param">Remaining parameter (zero or more)</a>	
-						<a href="/wildcard/oneplus/remaining/params">Remaining parameter (one or more)</a>
-						</div>
-						<div class="flex flex-col space-y-1 max-w-full">
-							<div class="flex space-x-3 justify-center">
-							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://pinecone-router.github.io/router/" target="_blank">Read Documentation</a>
-							<a class="flex rounded-3xl items-center bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/rehhouari/pinecone-example" target="_blank">Example Source</a>
-							</div>
-							<div class="flex space-x-3 justify-center">
-							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/discussions" target="_blank">Ask questions</a>
-							<a class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
-							</div>
-						</div>
-						`;
+	<script type="module" src="/main.js"></script>
+</body>
 
-						NProgress.done();
-					},
-
-					hello(context) {
-						NProgress.start();
-
-						let name;
-						// this handler is for /hello and /hello/:world
-						// the context comes handy in telling us which route it is.
-						if (context.route == '/hello/:name') {
-							// this means the user is at /hello/something
-							// where something is the context.params.name
-							name = context.params.name;
-						} else {
-							// the user is at /hello, ask them for their name
-							name = 'What is your name?';
-						}
-
-						document.querySelector('#app').innerHTML = `
-						<h1 class="prose-xl font-bold">Hello, ${name}</h1>
-						<!-- This isn't very clear since it's in a string
-							so what this does is every time the input change, use the $router magic helper to redirect
-							to /hello/input where input is the user input. -->
-						<input  type="text" @change="$router.redirect($event.target.value == 'home'? '/' : '/hello/'+$event.target.value)"
-								:value="$router.params?.name ?? ''"
-								placeholder="Write your name"
-								class="p-3 max-w-full focus:outline-none rounded-3xl bg-hex-5FD3BC text-hex-0B2822 font-bold text-center my-2">
-						<p class="tracking-tighter text-sm font-bold">Tip: write 'home' to go to the home page.</p>
-						`;
-
-						NProgress.done();
-					},
-
-					// this will handle the 404 routes
-					notfound(context) {
-						NProgress.start();
-
-						document.querySelector('#app').innerHTML = `
-						<h1 class="prose-lg font-bold mb-5">404 Not Found</h1>
-						<p>The page <strong>${context.path}</strong> doesn't exist.</p>
-						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3  text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
-						`;
-
-						NProgress.done();
-					},
-
-					// this will check if we have the same name
-					checkname(context) {
-						if (context.params.name.toLowerCase() == 'rafik') {
-							console.log('we have the same name!');
-						}
-					},
-
-					example(context) {
-						NProgress.start();
-						document.querySelector('#app').innerHTML = `
-						<p class="prose-xl font-bold">How: ${context.route} </p>
-						<p>${context.route == '/optional/:param?' ? 'Optional' : 'Remaining'} param: ${
-							context.params.param || 'not set'
-						}</p>
-						<button class="rounded-3xl bg-hex-0B2822 text-white p-2 mt-3 text-sm tracking-tighter" @click="$router.redirect('/')">Go Home</button>
-						`;
-						NProgress.done();
-					},
-				};
-			}
-		</script>
-
-		<script type="module" src="/main.js"></script>
-	</body>
 </html>
