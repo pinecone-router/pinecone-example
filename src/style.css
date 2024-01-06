@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-#app {
+#main {
 	@apply text-center p-6 max-w-sm mx-auto bg-[#D7F4EE] rounded-3xl shadow-lg
 }
 

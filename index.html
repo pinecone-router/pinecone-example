@@ -7,7 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Pinecone Router Simple Example</title>
 	<!--Import Pinecone Router-->
-	<script src="https://cdn.jsdelivr.net/npm/pinecone-router@4.x.x/dist/router.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/pinecone-router@4.1.1/dist/router.min.js"></script>
+	<!-- <script src="/router.min.js"></script> -->
 
 	<!--Import Alpine.js-->
 	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -19,7 +20,7 @@
 
 <body class="bg-[#0B2822] p-3">
 	<a href="/"><img src="/pinecone-router-readme-transparent.png" class="max-w-xs mx-auto " /></a>
-	<div id="app" x-data="example">
+	<div id="main" x-data="example">
 		<div>
 			<h1 class="font-bold text-lg mb-6">Pinecone Router Usage Examples</h1>
 
@@ -32,6 +33,7 @@
 					<a href="/hello">Hello World</a>
 					<a href="/test">A non-existing route</a>
 					<a href="/handler">x-handler examples</a>
+					<a href="/target">x-template.target example</a>
 				</div>
 			</template>
 
@@ -59,6 +61,9 @@
 				x-template="/views/hello.html"></template>
 
 			<template x-route="/handler/async" x-handler="[awaitedHandler]" x-template="/views/async.html"></template>
+			<!-- This template will be inserted inside the #app element instead of as a siblining -->
+			<template x-route="/target" x-template.preload.target.app="/views/target.html"></template>
+			<div id="app"></div>
 
 			<!-- footer -->
 			<div class="flex flex-col space-y-1 max-w-full">
@@ -81,8 +86,6 @@
 
 	<script>
 		let example = ({
-			id: '',
-			loading: false,
 			hello(context) {
 				if (context.params.name.toLowerCase() == 'home') {
 					return context.redirect('/')
@@ -94,14 +97,13 @@
 			// and templates wont be displayed
 			async awaitedHandler(context) {
 				await new Promise(resolve => setTimeout(resolve, 1500));
-				this.id = context.params.id
 			},
 		})
 		document.addEventListener('alpine:initialized', () => {
 			window.PineconeRouter.settings.basePath = '/'
 			window.PineconeRouter.settings.hash = false; // use hash routing
 		});
-		// add progress bar
+		// add loading bar
 		document.addEventListener('pinecone-start', () => NProgress.start());
 		document.addEventListener('pinecone-end', () => NProgress.done());
 		document.addEventListener('fetch-error', (err) => console.error(err));
