@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Pinecone Router Simple Example</title>
 	<!--Import Pinecone Router-->
-	<script src="https://cdn.jsdelivr.net/npm/pinecone-router@4.1.1/dist/router.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/pinecone-router@4.2.x/dist/router.min.js"></script>
 	<!-- <script src="/router.min.js"></script> -->
 
 	<!--Import Alpine.js-->
@@ -46,8 +46,9 @@
 
 			<!-- x-handler example -->
 
-			<!-- x-handler example lonks -->
-			<template x-route="/handler">
+			<!-- x-handler example links -->
+			<!-- this inline template is inserted into #app element using target modifier-->
+			<template x-route.target.app="/handler">
 				<div class="links">
 					<a href="/handler/inline">Inline handler (redirects to this page)</a>
 					<a href="/handler/async">Async handler with template</a>
