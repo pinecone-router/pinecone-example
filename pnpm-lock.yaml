@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 overrides:
   postcss@<8.4.31: '>=8.4.31'
 
@@ -9,7 +13,7 @@ dependencies:
     version: 2.8.2
   vite-plugin-windicss:
     specifier: ^0.15.10
-    version: 0.15.10(vite@2.9.16)
+    version: 0.15.10(vite@2.9.17)
 
 devDependencies:
   autoprefixer:
@@ -22,8 +26,8 @@ devDependencies:
     specifier: ^3.3.5
     version: 3.3.5
   vite:
-    specifier: ^2.9.16
-    version: 2.9.16
+    specifier: ^2.9.17
+    version: 2.9.17
 
 packages:
 
@@ -133,7 +137,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
-      postcss: ^8.1.0
+      postcss: '>=8.4.31'
     dependencies:
       browserslist: 4.22.1
       caniuse-lite: 1.0.30001564
@@ -495,12 +499,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /function-bind@1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
-
   /function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
-    dev: true
 
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -530,18 +530,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /has@1.0.3:
-    resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      function-bind: 1.1.1
-
   /hasown@2.0.0:
     resolution: {integrity: sha512-vUptKVTpIJhcczKBbgnS+RtcuYMB8+oNzPK2/Hp3hanz8JmpATdmmgLgSaadVREkDm+e2giHwY3ZRkyjSIDDFA==}
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
-    dev: true
 
   /inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
@@ -559,16 +552,10 @@ packages:
       binary-extensions: 2.2.0
     dev: true
 
-  /is-core-module@2.11.0:
-    resolution: {integrity: sha512-RRjxlvLDkD1YJwDbroBHMb+cukurkDWNyHx7D3oNB5x9rb5ogcksMC5wHCadcXoo67gVr/+3GFySh3134zi6rw==}
-    dependencies:
-      has: 1.0.3
-
   /is-core-module@2.13.1:
     resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}
     dependencies:
       hasown: 2.0.0
-    dev: true
 
   /is-extglob@2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
@@ -695,7 +682,7 @@ packages:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      postcss: ^8.0.0
+      postcss: '>=8.4.31'
     dependencies:
       postcss: 8.4.31
       postcss-value-parser: 4.2.0
@@ -707,7 +694,7 @@ packages:
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
     engines: {node: ^12 || ^14 || >= 16}
     peerDependencies:
-      postcss: ^8.4.21
+      postcss: '>=8.4.31'
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.31
@@ -717,7 +704,7 @@ packages:
     resolution: {integrity: sha512-bSVhyJGL00wMVoPUzAVAnbEoWyqRxkjv64tUl427SKnPrENtq6hJwUojroMz2VB+Q1edmi4IfrAPpami5VVgMQ==}
     engines: {node: '>= 14'}
     peerDependencies:
-      postcss: '>=8.0.9'
+      postcss: '>=8.4.31'
       ts-node: '>=9.0.0'
     peerDependenciesMeta:
       postcss:
@@ -734,7 +721,7 @@ packages:
     resolution: {integrity: sha512-mEp4xPMi5bSWiMbsgoPfcP74lsWLHkQbZc3sY+jWYd65CUwXrUaTp0fmNpa01ZcETKlIgUdFN/MpS2xZtqL9dQ==}
     engines: {node: '>=12.0'}
     peerDependencies:
-      postcss: ^8.2.14
+      postcss: '>=8.4.31'
     dependencies:
       postcss: 8.4.31
       postcss-selector-parser: 6.0.13
@@ -776,14 +763,6 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /resolve@1.22.1:
-    resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
-    hasBin: true
-    dependencies:
-      is-core-module: 2.11.0
-      path-parse: 1.0.7
-      supports-preserve-symlinks-flag: 1.0.0
-
   /resolve@1.22.8:
     resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
     hasBin: true
@@ -791,7 +770,6 @@ packages:
       is-core-module: 2.13.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-    dev: true
 
   /reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
@@ -922,7 +900,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite-plugin-windicss@0.15.10(vite@2.9.16):
+  /vite-plugin-windicss@0.15.10(vite@2.9.17):
     resolution: {integrity: sha512-6thupz/vOt6XTIHZGRd8vVwjmC+8/FNgdhZGfyp2gnkPxC4SKUa4wZFpLBhirw+ApP8vdm9oVpe2liBZdQIwIg==}
     peerDependencies:
       vite: ^2.0.1
@@ -930,14 +908,14 @@ packages:
       '@windicss/plugin-utils': 0.15.10
       chalk: 4.1.2
       debug: 4.3.4
-      vite: 2.9.16
+      vite: 2.9.17
       windicss: 2.5.14
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /vite@2.9.16:
-    resolution: {integrity: sha512-X+6q8KPyeuBvTQV8AVSnKDvXoBMnTx8zxh54sOwmmuOdxkjMmEJXH2UEchA+vTMps1xw9vL64uwJOWryULg7nA==}
+  /vite@2.9.17:
+    resolution: {integrity: sha512-XxcRzra6d7xrKXH66jZUgb+srThoPu+TLJc06GifUyKq9JmjHkc1Numc8ra0h56rju2jfVWw3B3fs5l3OFMvUw==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:
@@ -954,7 +932,7 @@ packages:
     dependencies:
       esbuild: 0.14.54
       postcss: 8.4.31
-      resolve: 1.22.1
+      resolve: 1.22.8
       rollup: 2.77.3
     optionalDependencies:
       fsevents: 2.3.2
