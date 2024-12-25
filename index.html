@@ -1,116 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pinecone Router Simple Example</title>
+		<!--Import Pinecone Router-->
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.x.x/dist/router.min.js"></script>
+		<!-- <script src="/router.min.js"></script> -->
 
-<head>
-	<meta charset="UTF-8" />
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Pinecone Router Simple Example</title>
-	<!--Import Pinecone Router-->
-	<script src="https://cdn.jsdelivr.net/npm/pinecone-router@4.4.x/dist/router.min.js"></script>
-	<!-- <script src="/router.min.js"></script> -->
+		<!--Import Alpine.js-->
+		<script
+			defer
+			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+		></script>
 
-	<!--Import Alpine.js-->
-	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<!-- OPTIONAL: nProgress for loading bar -->
+		<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/nprogress@0.2.0/nprogress.css"
+		/>
+	</head>
 
-	<!-- OPTIONAL: nProgress for loading bar -->
-	<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
-</head>
+	<body class="bg-[#0B2822] p-3">
+		<a href="/"
+			><img
+				src="/pinecone-router-readme-transparent.png"
+				class="max-w-xs mx-auto"
+		/></a>
+		<div id="main" x-data="example">
+			<div>
+				<h1 class="font-bold text-lg mb-6">
+					Pinecone Router Usage Examples
+				</h1>
 
-<body class="bg-[#0B2822] p-3">
-	<a href="/"><img src="/pinecone-router-readme-transparent.png" class="max-w-xs mx-auto " /></a>
-	<div id="main" x-data="example">
-		<div>
-			<h1 class="font-bold text-lg mb-6">Pinecone Router Usage Examples</h1>
+				<!-- Routes -->
 
-			<!-- Routes -->
+				<!-- Homepage -->
+				<template x-route="/">
+					<!-- inline template, under the hood it inserts an x-if that shows when the route is matched -->
+					<div class="links">
+						<a href="/hello">Hello World</a>
+						<a href="/test">A non-existing route</a>
+						<a href="/handler">x-handler</a>
+						<a href="/target">x-template.target</a>
+						<a href="/multiple-templates">multiple templates</a>
+						<a href="/prog-template"
+							>adding templates using js (doesn't clear on its
+							own)</a
+						>
+					</div>
+				</template>
 
-			<!-- Homepage -->
-			<template x-route="/">
-				<!-- inline template, under the hood it inserts an x-if that shows when the route is matched -->
-				<div class="links">
-					<a href="/hello">Hello World</a>
-					<a href="/test">A non-existing route</a>
-					<a href="/handler">x-handler examples</a>
-					<a href="/target">x-template.target example</a>
-				</div>
-			</template>
+				<!-- 404 page: this will load before its accessed (preloadeed) -->
+				<template
+					x-route="notfound"
+					x-template.preload="/views/404.html"
+				></template>
 
-			<!-- 404 page: this will load before its accessed (preloadeed) -->
-			<template x-route="notfound" x-template.preload="/views/404.html"></template>
+				<!-- Hello World page: his will load when the page is visited then cached in memory until page is reloaded-->
+				<template
+					x-route="/hello/:name?"
+					x-handler="hello"
+					x-template="/views/hello.html"
+				></template>
 
-			<!-- Hello World page: his will load when the page is visited then cached in memory until page is reloaded-->
-			<template x-route="/hello/:name?" x-handler="hello" x-template="/views/hello.html"></template>
+				<!-- x-handler example -->
 
+				<!-- x-handler example links -->
+				<!-- this inline template is inserted into #app element using target modifier-->
+				<template x-route.target.app="/handler">
+					<div class="links">
+						<a href="/handler/inline"
+							>Inline handler (redirects to this page)</a
+						>
+						<a href="/handler/async">Async handler with template</a>
+					</div>
+				</template>
 
-			<!-- x-handler example -->
+				<!-- x-handler examples -->
 
-			<!-- x-handler example links -->
-			<!-- this inline template is inserted into #app element using target modifier-->
-			<template x-route.target.app="/handler">
-				<div class="links">
-					<a href="/handler/inline">Inline handler (redirects to this page)</a>
-					<a href="/handler/async">Async handler with template</a>
-				</div>
-			</template>
+				<!-- inline handler, this will redirect and the template wont be loaded-->
+				<template
+					x-route="/handler/inline"
+					x-handler="(ctx)=>ctx.redirect('/handler')"
+					x-template="/views/hello.html"
+				></template>
 
-			<!-- x-handler examples -->
+				<template
+					x-route="/handler/async"
+					x-handler="[awaitedHandler]"
+					x-template="/views/async.html"
+				></template>
+				<!-- This template will be inserted inside the #app element instead of as a siblining -->
+				<template
+					x-route="/target"
+					x-template.preload.target.app="/views/body.html"
+				></template>
+				<!-- This route contains multiple templates -->
+				<template
+					x-route="/multiple-templates"
+					x-template.preload.target.app="['/views/header.html' ,'/views/body.html', '/views/footer.html']"
+				></template>
 
-			<!-- inline handler, this will redirect and the template wont be loaded-->
-			<template x-route="/handler/inline" x-handler="(ctx)=>ctx.redirect('/handler')"
-				x-template="/views/hello.html"></template>
+				<div id="app"></div>
 
-			<template x-route="/handler/async" x-handler="[awaitedHandler]" x-template="/views/async.html"></template>
-			<!-- This template will be inserted inside the #app element instead of as a siblining -->
-			<template x-route="/target" x-template.preload.target.app="/views/target.html"></template>
-			<div id="app"></div>
-
-			<!-- footer -->
-			<div class="flex flex-col space-y-1 max-w-full">
-				<div class="flex space-x-3 justify-center">
-					<a class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
-						href="https://pinecone-router.github.io/router/" target="_blank">Read Documentation</a>
-					<a class="flex rounded-3xl items-center bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
-						href="https://github.com/pinecone-router/pinecone-example" target="_blank">Example Source</a>
-				</div>
-				<div class="flex space-x-3 justify-center">
-					<a class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
-						href="https://github.com/pinecone-router/router/discussions" target="_blank">Ask
-						questions</a>
-					<a class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3  text-sm tracking-tighter"
-						href="https://github.com/pinecone-router/router/issues" target="_blank">Report bugs</a>
+				<!-- footer -->
+				<div class="flex flex-col space-y-1 max-w-full">
+					<div class="flex space-x-3 justify-center">
+						<a
+							class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3 text-sm tracking-tighter"
+							href="https://pinecone-router.github.io/router/"
+							target="_blank"
+							>Read Documentation</a
+						>
+						<a
+							class="flex rounded-3xl items-center bg-[#0B2822] text-white p-2 mt-3 text-sm tracking-tighter"
+							href="https://github.com/pinecone-router/pinecone-example"
+							target="_blank"
+							>Example Source</a
+						>
+					</div>
+					<div class="flex space-x-3 justify-center">
+						<a
+							class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3 text-sm tracking-tighter"
+							href="https://github.com/pinecone-router/router/discussions"
+							target="_blank"
+							>Ask questions</a
+						>
+						<a
+							class="rounded-3xl bg-[#0B2822] text-white p-2 mt-3 text-sm tracking-tighter"
+							href="https://github.com/pinecone-router/router/issues"
+							target="_blank"
+							>Report bugs</a
+						>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<script>
-		let example = ({
-			hello(context) {
-				if (context.params.name.toLowerCase() == 'home') {
-					return context.redirect('/')
-				}
-			},
+		<script>
+			let example = {
+				hello(context) {
+					if (context.params.name.toLowerCase() == 'home') {
+						return context.redirect('/');
+					}
+				},
 
-			// async functions will be automatically awaited by Pinecone Router
-			// meaning until it finished subsequent handlers wont be executed
-			// and templates wont be displayed
-			async awaitedHandler(context) {
-				await new Promise(resolve => setTimeout(resolve, 1500));
-			},
-		})
-		document.addEventListener('alpine:initialized', () => {
-			window.PineconeRouter.settings.basePath = '/'
-			window.PineconeRouter.settings.hash = false; // use hash routing
-		});
-		// add loading bar
-		document.addEventListener('pinecone-start', () => NProgress.start());
-		document.addEventListener('pinecone-end', () => NProgress.done());
-		document.addEventListener('fetch-error', (err) => console.error(err));
-	</script>
+				// async functions will be automatically awaited by Pinecone Router
+				// meaning until it finished subsequent handlers wont be executed
+				// and templates wont be displayed
+				async awaitedHandler(context) {
+					await new Promise((resolve) => setTimeout(resolve, 1500));
+				},
+			};
 
-	<script type="module" src="/main.js"></script>
-</body>
+			document.addEventListener('alpine:init', () => {
+				window.PineconeRouter.add('/prog-template', {
+					templates: ['/views/body.html', '/views/footer.html'],
+					templateTargetId: 'app',
+				});
+			});
 
+			// add loading bar
+			document.addEventListener('pinecone-start', () =>
+				NProgress.start()
+			);
+			document.addEventListener('pinecone-end', () => NProgress.done());
+			document.addEventListener('fetch-error', (err) =>
+				console.error(err)
+			);
+		</script>
+
+		<script type="module" src="/main.js"></script>
+	</body>
 </html>
