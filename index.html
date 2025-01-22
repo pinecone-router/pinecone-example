@@ -23,18 +23,35 @@
 		/>
 	</head>
 
-	<body class="bg-[#0B2822] p-3">
-		<a href="/"
+	<body class="bg-[#0B2822] p-3" x-data="example">
+		<a href="/" @click="$router.navigate('/')"
 			><img
 				src="/pinecone-router-readme-transparent.png"
 				class="max-w-xs mx-auto"
 		/></a>
-		<div id="main" x-data="example">
+		<div id="main">
 			<div>
 				<h1 class="font-bold text-lg mb-6">
 					Pinecone Router Usage Examples
 				</h1>
 
+				<button
+					class="text-gray-400 font-bold"
+					:disabled="!$router.canGoBack()"
+					:class="$router.canGoBack() && '!text-[#0b2822]'"
+					@click="$router.back()"
+				>
+					Back
+				</button>
+
+				<button
+					class="text-gray-400 font-bold"
+					:disabled="!$router.canGoForward()"
+					:class="$router.canGoForward() && '!text-[#0b2822]'"
+					@click="$router.forward()"
+				>
+					Forward
+				</button>
 				<!-- Routes -->
 
 				<!-- Homepage -->
