@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.1.x/dist/router.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.2.x/dist/router.min.js"></script>
 		<!-- <script src="/router.min.js"></script> -->
 
 		<!--Import Alpine.js-->
@@ -59,7 +59,7 @@
 					<!-- inline template, under the hood it inserts an x-if that shows when the route is matched -->
 					<div class="links">
 						<a href="/hello">Hello World</a>
-						<a href="/test">A non-existing route</a>
+						<a href="/test?q=404">A non-existing route</a>
 						<a href="/handler">x-handler</a>
 						<a href="/target">x-template.target</a>
 						<a href="/multiple-templates">multiple templates</a>
@@ -174,6 +174,9 @@
 			};
 
 			document.addEventListener('alpine:init', () => {
+				// this will always clear the search query when clicking links or using navigate()
+				// test by clicking the "A non-existing route" link then clicking the back button
+				window.PineconeRouter.settings.includeQuery = false;
 				window.PineconeRouter.add('/prog-template', {
 					templates: ['/views/body.html', '/views/footer.html'],
 					templateTargetId: 'app',
