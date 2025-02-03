@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.2.x/dist/router.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.2.2/dist/router.min.js"></script>
 		<!-- <script src="/router.min.js"></script> -->
 
 		<!--Import Alpine.js-->
@@ -118,7 +118,7 @@
 				<!-- This route contains multiple templates -->
 				<template
 					x-route="/multiple-templates"
-					x-template.preload.target.app="['/views/header.html' ,'/views/body.html', '/views/footer.html']"
+					x-template.target.app="['/views/header.html' ,'/views/body.html', '/views/footer.html']"
 				></template>
 
 				<div id="app"></div>
@@ -180,6 +180,7 @@
 				window.PineconeRouter.add('/prog-template', {
 					templates: ['/views/body.html', '/views/footer.html'],
 					templateTargetId: 'app',
+					preload: true,
 				});
 			});
 
