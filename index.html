@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.2.2/dist/router.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.5.0/dist/router.min.js"></script>
 		<!-- <script src="/router.min.js"></script> -->
 
 		<!--Import Alpine.js-->
@@ -23,8 +23,12 @@
 		/>
 	</head>
 
-	<body class="bg-[#0B2822] p-3" x-data="example">
-		<a href="/" @click="$router.navigate('/')"
+	<body
+		class="bg-[#0B2822] p-3"
+		x-data="example"
+		x-handler.global="[(ctx)=>console.log(ctx.path)]"
+	>
+		<a href="/"
 			><img
 				src="/pinecone-router-readme-transparent.png"
 				class="max-w-xs mx-auto"
