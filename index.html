@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@5.5.0/dist/router.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@6.0.0/dist/router.min.js"></script>
 		<!-- <script src="/router.min.js"></script> -->
 
 		<!--Import Alpine.js-->
@@ -174,24 +174,21 @@
 			};
 
 			document.addEventListener('alpine:init', () => {
-				// this will always clear the search query when clicking links or using navigate()
-				// test by clicking the "A non-existing route" link then clicking the back button
-				window.PineconeRouter.settings.includeQuery = false;
 				window.PineconeRouter.add('/prog-template', {
 					templates: ['/views/body.html', '/views/footer.html'],
 					templateTargetId: 'app',
 					preload: true,
 				});
-				PineconeRouter.globalHandlers = [
-					(ctx) => console.log(ctx.path),
-				];
+				window.PineconeRouter.settings.alwaysSendLoadingEvents = true;
 			});
 
 			// add loading bar
-			document.addEventListener('pinecone-start', () =>
-				NProgress.start()
-			);
-			document.addEventListener('pinecone-end', () => NProgress.done());
+			document.addEventListener('pinecone-start', () => {
+				NProgress.start();
+			});
+			document.addEventListener('pinecone-end', () => {
+				NProgress.done();
+			});
 			document.addEventListener('fetch-error', (err) =>
 				console.error(err)
 			);
