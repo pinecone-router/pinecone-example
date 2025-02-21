@@ -23,11 +23,7 @@
 		/>
 	</head>
 
-	<body
-		class="bg-[#0B2822] p-3"
-		x-data="example"
-		x-handler.global="[(ctx)=>console.log(ctx.path)]"
-	>
+	<body class="bg-[#0B2822] p-3" x-data="example">
 		<a href="/"
 			><img
 				src="/pinecone-router-readme-transparent.png"
@@ -186,6 +182,9 @@
 					templateTargetId: 'app',
 					preload: true,
 				});
+				PineconeRouter.globalHandlers = [
+					(ctx) => console.log(ctx.path),
+				];
 			});
 
 			// add loading bar
