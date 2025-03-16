@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pinecone Router Simple Example</title>
 		<!--Import Pinecone Router-->
-		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@6.0.0/dist/router.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@6.2.1/dist/router.min.js"></script>
 		<!-- <script src="/router.min.js"></script> -->
 
 		<!--Import Alpine.js-->
@@ -31,7 +31,7 @@
 		/></a>
 		<div id="main">
 			<div>
-				<h1 class="font-bold text-lg mb-6">
+				<h1 id="title" class="font-bold text-lg mb-6">
 					Pinecone Router Usage Examples
 				</h1>
 
@@ -67,6 +67,9 @@
 							>adding templates using js (doesn't clear on its
 							own)</a
 						>
+						<a href="/interpolated-templates/foo"
+							>Interpolated templates</a
+						>
 					</div>
 				</template>
 
@@ -80,7 +83,12 @@
 				<template
 					x-route="/hello/:name?"
 					x-handler="hello"
-					x-template="/views/hello.html"
+					x-template.preload="/views/hello.html"
+				></template>
+				<!-- Using the .interpolate modifier, you can add parameters to the template path-->
+				<template
+					x-route="/interpolated-templates/:name"
+					x-template.interpolate.target.app="/views/interpolated-templates/:name.html"
 				></template>
 
 				<!-- x-handler example -->
